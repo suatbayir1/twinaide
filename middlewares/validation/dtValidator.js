@@ -7,7 +7,7 @@ const CustomError = require('../../helpers/error/CustomError');
 
 const checkIfHierarchySuitable = asyncErrorWrapper(async (req, res, next) => {
     if (!iterateHierarchy(req.body)) {
-        return next(new CustomError("Your digital twin hierarchy is invalid. Please check the documentation"));
+        return next(new CustomError("Your digital twin hierarchy is invalid. Please check the documentation", 400));
     }
 
     next();

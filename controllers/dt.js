@@ -59,7 +59,7 @@ const getSingleDT = asyncErrorWrapper(async (req, res, next) => {
     const { id: userID } = req.user;
 
     if (!getDTOwnerAccess(req.dt, userID)) {
-        return next(new CustomError("Only owner can access this Digital Twin"));
+        return next(new CustomError("Only owner can access this Digital Twin", 401));
     }
 
     res.json({

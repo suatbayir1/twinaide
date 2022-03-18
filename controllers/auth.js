@@ -39,7 +39,7 @@ const login = asyncErrorWrapper(async (req, res, next) => {
     const user = await User.findOne({ email }).select("+password");
 
     if (user === null) {
-        return next(new CustomError("This email is not registered"));
+        return next(new CustomError("This email is not registered", 404));
     }
 
     if (!comparePassword(password, user.password)) {
