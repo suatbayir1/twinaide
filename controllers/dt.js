@@ -38,9 +38,15 @@ const createDT = asyncErrorWrapper(async (req, res, next) => {
 })
 
 const getAllDTs = asyncErrorWrapper(async (req, res, next) => {
+    const { id: userID } = req.user;
+
     const dts = await DT
         .find({
-            privacy: "public"
+            $or: [{
+                privacy: "public"
+            }, {
+                owner: userID
+            }]
         })
         .select('id name displayName')
         .sort({ updatedAt: 'desc' })
