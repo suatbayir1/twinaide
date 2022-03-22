@@ -12,6 +12,11 @@ const MetaDTSchema = new Schema({
         required: [true, "Please provide a privacy"],
         enum: ["public", "private"]
     },
+    id: {
+        type: String,
+        required: [true, "Please provide a unique id"],
+        unique: true
+    },
     name: {
         type: String,
         required: [true, "Please provide a unique name"],
@@ -33,7 +38,20 @@ const MetaDTSchema = new Schema({
     relations: {
         type: Array,
         required: [true, "Please provide a relations"]
-    }
+    },
+    owner: {
+        type: mongoose.Schema.ObjectId,
+        required: [true, "Please provide a unique owner id"],
+        ref: "User"
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now
+    },
+    updatedAt: {
+        type: Date,
+        default: Date.now
+    },
 })
 
 module.exports = mongoose.model("MetaDT", MetaDTSchema);

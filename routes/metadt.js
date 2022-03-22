@@ -3,11 +3,12 @@ const express = require('express');
 const router = express.Router();
 
 // Controllers
-const { createMetaDT } = require('../controllers/metadt')
+const { createMetaDT, getAllMetaDTs, getSingleMetaDT } = require('../controllers/metadt')
 
 // Middlewares
 const { getAccessToRoute, getAdminAccess } = require('../middlewares/auth/auth');
 const { checkAccessToDTsByUser } = require('../middlewares/validation/metadtValidator');
+const { checkMetaDTExist } = require('../middlewares/database/databaseErrorHelpers')
 
 // Helpers
 const { createMetaDTRules } = require('../helpers/validation/metadtValidator');
@@ -23,6 +24,16 @@ router.post("/",
         checkAccessToDTsByUser
     ],
     createMetaDT
+)
+
+router.get("/",
+    getAccessToRoute,
+    getAllMetaDTs
+)
+
+router.get("/:id",
+    [getAccessToRoute, checkMetaDTExist],
+    getSingleMetaDT
 )
 
 module.exports = router;
