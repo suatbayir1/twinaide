@@ -28,7 +28,7 @@ const createDT = asyncErrorWrapper(async (req, res, next) => {
     params["id"] = uuidv4();
     params["owner"] = id;
 
-    const dt = await DT.create(req.body)
+    const dt = await DT.create(params)
 
     res.json({
         success: true,

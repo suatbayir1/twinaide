@@ -1,12 +1,5 @@
 // Libraries
-const { body, validationResult } = require('express-validator');
-
-// Rules
-const createDTRules = () => {
-    return [
-        body('name', "name doesn't exists").exists(),
-    ]
-}
+const { validationResult } = require('express-validator');
 
 const validate = (req, res, next) => {
     const errors = validationResult(req);
@@ -24,6 +17,5 @@ const validate = (req, res, next) => {
 }
 
 module.exports = {
-    createDTRules,
     validate
 }

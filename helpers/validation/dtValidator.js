@@ -1,3 +1,13 @@
+// Libraries
+const { body } = require('express-validator');
+
+// Rules
+const createDTRules = () => {
+    return [
+        body('name', "name doesn't exists").exists(),
+    ]
+}
+
 const iterateHierarchy = (object) => {
     try {
         let result = false;
@@ -23,5 +33,6 @@ const iterateHierarchy = (object) => {
 
 
 module.exports = {
+    createDTRules,
     iterateHierarchy,
 }

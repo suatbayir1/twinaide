@@ -11,7 +11,8 @@ const { checkDTExist } = require('../middlewares/database/databaseErrorHelpers')
 const { checkIfHierarchySuitable } = require('../middlewares/validation/dtValidator');
 
 // Helpers
-const { createDTRules, validate } = require('../helpers/validation/validator');
+const { validate } = require('../helpers/validation/validator');
+const { createDTRules } = require('../helpers/validation/dtValidator');
 
 // Routes
 router.post("/createDT",
