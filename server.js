@@ -1,5 +1,6 @@
 // Libraries
 const express = require("express");
+const cors = require('cors');
 const dotenv = require("dotenv");
 
 // Routes
@@ -13,6 +14,9 @@ const customErrorHandler = require('./middlewares/errors/customErrorHandler');
 
 // Express instance
 const app = express();
+
+// CORS Policy
+app.use(cors());
 
 // Express BodyParser
 app.use(express.json());

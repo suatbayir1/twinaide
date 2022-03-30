@@ -48,7 +48,7 @@ const getAllDTs = asyncErrorWrapper(async (req, res, next) => {
                 owner: userID
             }]
         })
-        .select('id name displayName')
+        .select('id name displayName description updatedAt privacy version')
         .sort({ updatedAt: 'desc' })
         .populate({
             path: "owner",
@@ -75,8 +75,34 @@ const getSingleDT = asyncErrorWrapper(async (req, res, next) => {
     })
 })
 
+const updateDT = asyncErrorWrapper(async (req, res, next) => {
+    const { id: userID } = req.user;
+    const { id: dtID } = req.params;
+
+    let dt = await DT.findById(dtID);
+
+    if (!getDTOwnerAccess(dt, userID)) {
+        return next(new CustomError("Only owner can access this Digital Twin", 401));
+    }
+
+    Object.keys(req.body).forEach(key => {
+        if (key in dt) {
+            dt[key] = req.body[key];
+        }
+    })
+
+    dt = await dt.save();
+
+    res.json({
+        success: true,
+        message: "DT updated successfully",
+        data: dt
+    });
+})
+
 module.exports = {
     createDT,
     getAllDTs,
     getSingleDT,
+    updateDT,
 }

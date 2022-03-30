@@ -11,6 +11,7 @@ const sendJwtToClient = (user, res) => {
         })
         .json({
             success: true,
+            message: "Login Successfull",
             access_token: token,
             data: {
                 id: user._id.toString(),

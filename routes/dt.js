@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 
 // Controllers
-const { createDT, getAllDTs, getSingleDT } = require('../controllers/dt');
+const { createDT, getAllDTs, getSingleDT, updateDT } = require('../controllers/dt');
 
 // Middlewares
 const { getAccessToRoute, getAdminAccess, } = require('../middlewares/auth/auth');
@@ -35,5 +35,10 @@ router.get("/:id",
     [getAccessToRoute, checkDTExist],
     getSingleDT
 )
+
+router.put("/:id",
+    [getAccessToRoute, checkDTExist],
+    updateDT
+);
 
 module.exports = router;
