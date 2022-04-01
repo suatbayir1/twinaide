@@ -7,7 +7,7 @@ const { v4: uuidv4 } = require('uuid');
 const DT = require('../models/DT');
 
 // Helpers
-const { getDTOwnerAccess } = require('../helpers/auth/accessControl');
+const { getDTOwnerAccess, getOnlyDTOwnerAccessByID } = require('../helpers/auth/accessControl');
 const CustomError = require('../helpers/error/CustomError');
 
 // Functions
@@ -100,9 +100,26 @@ const updateDT = asyncErrorWrapper(async (req, res, next) => {
     });
 })
 
+const deleteDT = asyncErrorWrapper(async (req, res, next) => {
+    const { id: dtID } = req.params;
+    const { id: userID } = req.user;
+
+    if (!getOnlyDTOwnerAccessByID(dtID, userID)) {
+        return next(new CustomError("Only owner can delete this Digital Twin", 401));
+    }
+
+    await DT.findByIdAndDelete(dtID);
+
+    res.json({
+        success: true,
+        message: "DT deleted successfully",
+    })
+})
+
 module.exports = {
     createDT,
     getAllDTs,
     getSingleDT,
     updateDT,
+    deleteDT,
 }

@@ -24,7 +24,21 @@ const getDTOwnerAccessByID = asyncErrorWrapper(async (dtID, userID) => {
     return true;
 })
 
+const getOnlyDTOwnerAccessByID = asyncErrorWrapper(async (dtID, userID) => {
+    const dt = await DT.findOne({ _id: dtID });
+
+    if (!dt) {
+        return false;
+    }
+
+    if (dt.owner.toString() != userID) {
+        return false;
+    }
+    return true;
+})
+
 module.exports = {
     getDTOwnerAccess,
-    getDTOwnerAccessByID
+    getDTOwnerAccessByID,
+    getOnlyDTOwnerAccessByID,
 }
