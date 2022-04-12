@@ -81,14 +81,14 @@ const updateDT = asyncErrorWrapper(async (req, res, next) => {
 
     let dt = await DT.findById(dtID);
 
-    if (!getDTOwnerAccess(dt, userID)) {
+    if (!getOnlyDTOwnerAccessByID(dtID, userID)) {
         return next(new CustomError("Only owner can access this Digital Twin", 401));
     }
 
     Object.keys(req.body).forEach(key => {
-        if (key in dt) {
-            dt[key] = req.body[key];
-        }
+        // if (key in dt) {
+        dt[key] = req.body[key];
+        // }
     })
 
     dt = await dt.save();
