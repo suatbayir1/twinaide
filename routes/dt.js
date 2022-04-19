@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 
 // Controllers
-const { createDT, getAllDTs, getSingleDT, updateDT, deleteDT } = require('../controllers/dt');
+const { createDT, getAllDTs, getSingleDT, updateDT, deleteDT, replaceDTWithNewDocument } = require('../controllers/dt');
 
 // Middlewares
 const { getAccessToRoute, getAdminAccess, } = require('../middlewares/auth/auth');
@@ -40,6 +40,15 @@ router.put("/:id",
     [getAccessToRoute, checkDTExist],
     updateDT
 );
+
+router.put("/:id/replace",
+    [
+        getAccessToRoute,
+        checkDTExist,
+        // checkIfHierarchySuitable
+    ],
+    replaceDTWithNewDocument
+)
 
 router.delete("/:id",
     [getAccessToRoute, checkDTExist],

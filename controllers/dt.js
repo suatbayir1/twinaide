@@ -100,6 +100,27 @@ const updateDT = asyncErrorWrapper(async (req, res, next) => {
     });
 })
 
+const replaceDTWithNewDocument = asyncErrorWrapper(async (req, res, next) => {
+    const { id: userID } = req.user;
+    const { id: dtID } = req.params;
+
+    let dt = await DT.findById(dtID);
+
+    if (!getOnlyDTOwnerAccessByID(dtID, userID)) {
+        return next(new CustomError("Only owner can access this Digital Twin", 401));
+    }
+
+
+    dt = await dt.replaceOne(req.body);
+
+    res.json({
+        success: true,
+        message: "DT updated successfully",
+        data: dt
+    });
+})
+
+
 const deleteDT = asyncErrorWrapper(async (req, res, next) => {
     const { id: dtID } = req.params;
     const { id: userID } = req.user;
@@ -122,4 +143,5 @@ module.exports = {
     getSingleDT,
     updateDT,
     deleteDT,
+    replaceDTWithNewDocument,
 }

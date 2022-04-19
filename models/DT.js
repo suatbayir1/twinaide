@@ -61,7 +61,7 @@ const DTSchema = new Schema({
         type: Array,
         required: [true, "Please provide a children"],
     }
-})
+}, { strict: false })
 
 
 DTSchema.pre("save", function (next) {
