@@ -2,6 +2,8 @@
 const express = require("express");
 const cors = require('cors');
 const dotenv = require("dotenv");
+const path = require("path");
+const SocketHandler = require('./websocket');
 
 // Routes
 const routes = require('./routes/index');
@@ -35,7 +37,23 @@ app.use('/api', routes);
 // Error Handling
 app.use(customErrorHandler);
 
+// Static Files
+app.use(express.static(path.join(__dirname, "public")));
+
 // App start
-app.listen(process.env.PORT, () => {
+const server = app.listen(process.env.PORT, () => {
     console.log(`App started on ${process.env.PORT} : ${process.env.NODE_ENV}`);
 })
+
+// Web Socket
+const io = require('socket.io')(server, {
+    cors: {
+        origin: '*',
+    }
+});
+
+io.on('connection', socket => {
+    console.log('Connected');
+    const socketHandler = new SocketHandler();
+    socketHandler.listen(socket);
+});

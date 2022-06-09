@@ -10,14 +10,10 @@ const checkAccessToDTsByUser = asyncErrorWrapper(async (req, res, next) => {
     const { id: userID } = req.user;
 
     for (const relation of relations) {
-        const keys = Object.keys(relation);
+        const accessible = await getDTOwnerAccessByID(relation, userID);
 
-        for (const key of keys) {
-            const accessible = await getDTOwnerAccessByID(relation[key], userID);
-
-            if (!accessible)
-                return next(new CustomError(`You cannot access to this DT: ${relation[key]}`, 400))
-        }
+        if (!accessible)
+            return next(new CustomError(`You cannot access to this DT: ${relation}`, 400))
     }
 
     next();

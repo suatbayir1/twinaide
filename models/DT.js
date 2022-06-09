@@ -60,7 +60,10 @@ const DTSchema = new Schema({
     children: {
         type: Array,
         required: [true, "Please provide a children"],
-    }
+    },
+    visual: {
+        type: Object
+    },
 }, { strict: false })
 
 

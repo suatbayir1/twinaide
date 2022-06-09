@@ -37,7 +37,7 @@ const getAllMetaDTs = asyncErrorWrapper(async (req, res, next) => {
                 owner: userID
             }]
         })
-        .select('id name displayName relations')
+        .select('id name displayName relations description updatedAt privacy version')
         .sort({ updatedAt: 'desc' })
         .populate({
             path: "owner",

@@ -33,7 +33,8 @@ const MetaDTSchema = new Schema({
     type: {
         type: String,
         required: [true, "Please provide a type"],
-        enum: ["MetaDT"]
+        enum: ["MetaDT"],
+        default: "MetaDT"
     },
     relations: {
         type: Array,

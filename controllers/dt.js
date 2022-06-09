@@ -110,7 +110,6 @@ const replaceDTWithNewDocument = asyncErrorWrapper(async (req, res, next) => {
         return next(new CustomError("Only owner can access this Digital Twin", 401));
     }
 
-
     dt = await dt.replaceOne(req.body);
 
     res.json({
@@ -137,6 +136,13 @@ const deleteDT = asyncErrorWrapper(async (req, res, next) => {
     })
 })
 
+const visualFileUpload = asyncErrorWrapper(async (req, res, next) => {
+    res.status(200).json({
+        success: true,
+        message: "File uploaded successfully"
+    })
+})
+
 module.exports = {
     createDT,
     getAllDTs,
@@ -144,4 +150,5 @@ module.exports = {
     updateDT,
     deleteDT,
     replaceDTWithNewDocument,
+    visualFileUpload,
 }

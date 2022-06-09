@@ -3,12 +3,16 @@ const express = require('express');
 const router = express.Router();
 
 // Controllers
-const { createDT, getAllDTs, getSingleDT, updateDT, deleteDT, replaceDTWithNewDocument } = require('../controllers/dt');
+const {
+    createDT, getAllDTs, getSingleDT, updateDT, deleteDT,
+    replaceDTWithNewDocument, visualFileUpload
+} = require('../controllers/dt');
 
 // Middlewares
 const { getAccessToRoute, getAdminAccess, } = require('../middlewares/auth/auth');
 const { checkDTExist } = require('../middlewares/database/databaseErrorHelpers');
 const { checkIfHierarchySuitable } = require('../middlewares/validation/dtValidator');
+const dtVisualFileUpload = require('../middlewares/libraries/dtVisualFileUpload');
 
 // Helpers
 const { validate } = require('../helpers/validation/validator');
@@ -53,6 +57,11 @@ router.put("/:id/replace",
 router.delete("/:id",
     [getAccessToRoute, checkDTExist],
     deleteDT
+)
+
+router.post("/:id/uploadVisualFile",
+    [getAccessToRoute, checkDTExist, dtVisualFileUpload.single("file")],
+    visualFileUpload
 )
 
 module.exports = router;
