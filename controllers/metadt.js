@@ -4,7 +4,7 @@ const { v4: uuidv4 } = require('uuid');
 
 // Helpers
 const CustomError = require('../helpers/error/CustomError');
-const { getDTOwnerAccess } = require('../helpers/auth/accessControl');
+const { getDTOwnerAccess, getOnlyMetaDTOwnerAccessByID } = require('../helpers/auth/accessControl');
 
 // Models
 const MetaDT = require('../models/MetaDT');
@@ -57,7 +57,6 @@ const getSingleMetaDT = asyncErrorWrapper(async (req, res, next) => {
         return next(new CustomError("Only owner can access this Meta DT", 401));
     }
 
-
     res.json({
         success: true,
         message: "success",
@@ -65,8 +64,49 @@ const getSingleMetaDT = asyncErrorWrapper(async (req, res, next) => {
     })
 })
 
+const deleteMetaDT = asyncErrorWrapper(async (req, res, next) => {
+    const { id: dtID } = req.params;
+    const { id: userID } = req.user;
+
+    if (!getOnlyMetaDTOwnerAccessByID(dtID, userID)) {
+        return next(new CustomError("Only owner can delete this Meta Digital Twin", 401));
+    }
+
+    await MetaDT.findByIdAndDelete(dtID);
+
+    res.json({
+        success: true,
+        message: "Meta DT deleted successfully",
+    })
+})
+
+const updateMetaDT = asyncErrorWrapper(async (req, res, next) => {
+    const { id: userID } = req.user;
+    const { id: dtID } = req.params;
+
+    let metadt = await MetaDT.findById(dtID);
+
+    if (!getOnlyMetaDTOwnerAccessByID(dtID, userID)) {
+        return next(new CustomError("Only owner can access this Meta Digital Twin", 401));
+    }
+
+    Object.keys(req.body).forEach(key => {
+        metadt[key] = req.body[key];
+    })
+
+    metadt = await metadt.save();
+
+    res.json({
+        success: true,
+        message: "Meta DT updated successfully",
+        data: metadt
+    });
+})
+
 module.exports = {
     createMetaDT,
     getAllMetaDTs,
     getSingleMetaDT,
+    deleteMetaDT,
+    updateMetaDT
 }
