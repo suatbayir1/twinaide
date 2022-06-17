@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 
 // Controllers
-const { createMetaDT, getAllMetaDTs, getSingleMetaDT, deleteMetaDT, updateMetaDT } = require('../controllers/metadt')
+const { createMetaDT, getAllMetaDTs, getSingleMetaDT, deleteMetaDT, updateMetaDT, getSingleMetaDTDetail } = require('../controllers/metadt')
 
 // Middlewares
 const { getAccessToRoute, getAdminAccess } = require('../middlewares/auth/auth');
@@ -35,6 +35,12 @@ router.get("/:id",
     [getAccessToRoute, checkMetaDTExist],
     getSingleMetaDT
 )
+
+router.get("/:id/detail",
+    [getAccessToRoute, checkMetaDTExist],
+    getSingleMetaDTDetail
+)
+
 
 router.delete("/:id",
     [getAccessToRoute, checkMetaDTExist],

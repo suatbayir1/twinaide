@@ -14,3 +14,5 @@ client.on("connect", function () {
         client.publish('mqtt-test-topic', JSON.stringify(data));
     }, 1000);
 })
+
+client.on("error", function (error) { console.log("Can't connect" + error) })

@@ -8,6 +8,7 @@ const { getDTOwnerAccess, getOnlyMetaDTOwnerAccessByID } = require('../helpers/a
 
 // Models
 const MetaDT = require('../models/MetaDT');
+const DT = require('../models/DT');
 
 // Functions
 const createMetaDT = asyncErrorWrapper(async (req, res, next) => {
@@ -103,10 +104,49 @@ const updateMetaDT = asyncErrorWrapper(async (req, res, next) => {
     });
 })
 
+const getSingleMetaDTDetail = asyncErrorWrapper(async (req, res, next) => {
+    const { id: userID } = req.user;
+    const { id } = req.params;
+
+    if (!getDTOwnerAccess(req.metaDT, userID)) {
+        return next(new CustomError("Only owner can access this Meta DT", 401));
+    }
+
+    const metadt = await MetaDT
+        .findById(id)
+        .populate({
+            path: "owner",
+            select: "_id name email"
+        });
+
+    const children = [];
+
+    for (const relation of metadt.relations) {
+        const dt = await DT.findOne({ id: relation }).populate({
+            path: "owner",
+            select: "_id name email"
+        });
+
+        if (!dt)
+            continue
+
+        children.push(dt);
+    }
+
+    const result = { ...JSON.parse(JSON.stringify(metadt)), children };
+
+    res.json({
+        success: true,
+        message: "success",
+        data: result,
+    })
+})
+
 module.exports = {
     createMetaDT,
     getAllMetaDTs,
     getSingleMetaDT,
     deleteMetaDT,
-    updateMetaDT
+    updateMetaDT,
+    getSingleMetaDTDetail,
 }

@@ -8,11 +8,32 @@ class SocketHandler {
 
     kafkaConnector = (socket, arg) => {
         try {
-            const client = new kafka.KafkaClient(`${arg.IP}:${arg.PORT}`);
+            console.log("arg", arg);
+            const client = new kafka.KafkaClient({
+                kafkaHost: `${arg.IP}:${arg.PORT}`,
+                sasl: { mechanism: 'plain', username: arg.USERNAME, password: arg.PASSWORD }
+            });
+
+            client.on("error", (error) => {
+                socket.emit('event', JSON.stringify({ error: error.message }));
+                console.log("clientError", error.message);
+                client.close();
+            })
+
             const offset = new kafka.Offset(client);
+
+            offset.on("error", (error) => {
+                console.log("offsetError", error.message);
+                // socket.emit('event', JSON.stringify({ error: error.message }));
+                client.close();
+            })
+
             offset.fetchLatestOffsets([arg.TOPIC], function (error, offsets) {
-                if (error)
-                    return handleError(error);
+                if (error) {
+                    // console.log(error.message);
+                    socket.emit('event', JSON.stringify({ error: error.message }));
+                    return;
+                }
 
                 const consumer = new kafka.Consumer(
                     client,
@@ -51,7 +72,10 @@ class SocketHandler {
 
     mqttConnector = (socket, arg) => {
         try {
-            const client = mqtt.connect(`mqtt://${arg.IP}:${arg.PORT}`);
+            console.log(arg);
+            const client = mqtt.connect(`mqtt://${arg.IP}:${arg.PORT}`,
+                { username: arg.USERNAME, password: arg.PASSWORD }
+            );
 
             client.on('connect', function () {
                 client.subscribe(arg.TOPIC);
@@ -61,6 +85,12 @@ class SocketHandler {
             client.on('message', function (topic, message) {
                 console.log(message.toString());
                 socket.emit('event', message.toString());
+            })
+
+            client.on("error", function (error) {
+                console.log("Can't connect" + error)
+                socket.emit('event', JSON.stringify({ error: error.message }));
+                client.end();
             })
 
             socket.on('disconnect', () => {

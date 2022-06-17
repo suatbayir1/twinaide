@@ -1,0 +1,29 @@
+version: "3.8"
+services:
+  zookeeper:
+    container_name: zookeeper
+    image: bitnami/zookeeper:latest
+    ports:
+      - 2181:2181
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+  kafka4userpass:
+    container_name: kafka4userpass
+    image: bitnami/kafka:latest
+    ports:
+      - '9096:9096'
+    environment:
+      - KAFKA_BROKER_ID=4
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+      - KAFKA_ZOOKEEPER_PROTOCOL:SASL_PLAINTEXT
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CLIENT:PLAINTEXT,EXTERNAL:SASL_PLAINTEXT
+      - KAFKA_CFG_LISTENERS=CLIENT://:9092,EXTERNAL://:9096
+      - KAFKA_CFG_ADVERTISED_LISTENERS=CLIENT://kafka4userpass:9092,EXTERNAL://localhost:9096
+      - KAFKA_INTER_BROKER_LISTENER_NAME=CLIENT
+      - KAFKA_CLIENT_USERS=kafkauser
+      - KAFKA_CLIENT_PASSWORDS=kafkapassword
+    volumes:
+      - './kafka_jaas.conf:/opt/bitnami/kafka/conf/kafka_jaas.conf:ro'
+    depends_on:
+      - zookeeper
