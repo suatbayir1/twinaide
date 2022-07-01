@@ -36,9 +36,9 @@ const DTSchema = new Schema({
         ref: "User"
     },
     location: {
-        country: { type: String },
-        city: { type: String },
-        address: { type: String }
+        country: { type: String, default: "" },
+        city: { type: String, default: "" },
+        address: { type: String, default: "" }
     },
     type: {
         type: String,

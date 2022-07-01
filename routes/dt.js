@@ -25,7 +25,7 @@ router.post("/createDT",
         validate,
         getAccessToRoute,
         getAdminAccess,
-        checkIfHierarchySuitable
+        // checkIfHierarchySuitable
     ],
     createDT
 );

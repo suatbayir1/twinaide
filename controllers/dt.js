@@ -86,10 +86,13 @@ const updateDT = asyncErrorWrapper(async (req, res, next) => {
     }
 
     Object.keys(req.body).forEach(key => {
+        console.log(key);
         // if (key in dt) {
         dt[key] = req.body[key];
         // }
     })
+
+    console.log(dt);
 
     dt = await dt.save();
 
@@ -109,6 +112,8 @@ const replaceDTWithNewDocument = asyncErrorWrapper(async (req, res, next) => {
     if (!getOnlyDTOwnerAccessByID(dtID, userID)) {
         return next(new CustomError("Only owner can access this Digital Twin", 401));
     }
+
+    console.log(req.body);
 
     dt = await dt.replaceOne(req.body);
 
