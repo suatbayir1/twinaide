@@ -1,5 +1,5 @@
 const mqtt = require("mqtt");
-var client = mqtt.connect("mqtt://localhost:1883", { username: "suat1", password: "1234123526" });
+var client = mqtt.connect("mqtt://localhost:1883", { username: "suat", password: "123456" });
 
 client.on('connect', function () {
     client.subscribe("mqtt-test-topic");
