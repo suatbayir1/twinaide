@@ -83,3 +83,13 @@ The routes folder contains files that manage routing operations.
 In the services folder, there are publisher and subscriber codes of 2 different brokers, kafka and mqtt.
 
 # Data Transfer
+
+Currently, data transfer is supported for 2 different message brokers, kafka and mqtt.
+
+## Start Kafka
+
+To start kafka and zookeeper services, `docker-compose up` command must be run in root directory. 
+
+## MQTT Broker
+
+To run mqtt broker, you must first set up an mqtt broker server on your computer. [mosquitto](https://mosquitto.org/) you can follow the installation steps on this link
