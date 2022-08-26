@@ -17,3 +17,16 @@ To download the libraries used in the twinaide project, the `npm install` comman
 ### Start API
 
 To start the API, `npm run start` command must be run in the root directory. After running the command the following output should be obtained.
+
+```
+> twinaide@1.0.0 start
+> nodemon server.js
+
+[nodemon] 2.0.16
+[nodemon] to restart at any time, enter `rs`
+[nodemon] watching path(s): *.*
+[nodemon] watching extensions: js,mjs,json
+[nodemon] starting `node server.js`
+App started on 5000 : development
+mongodb connection successful
+```
