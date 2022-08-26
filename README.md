@@ -14,6 +14,25 @@ API developed using python and flask technologies and communicating with third p
 
 To download the libraries used in the twinaide project, the `npm install` command should be run.
 
+### Set config file
+Before starting the API, a file named `config.env` should be created under the `twinaide/config` folder and the variable information that appears in the `twinaide/test.env` file should be set.
+
+```
+# Server Variables
+PORT = <YOUR-PORT>
+NODE_ENV = <development | production>
+
+# MongoDB URI
+MONGO_URI = <YOUR-MONGO-URI>
+
+# JSON Web Token
+JWT_SECRET_KEY = <YOUR-JWT-SECRET-KEY>
+JWT_EXPIRE = <YOUR-JWT-EXPIRE-TIME>
+
+# Cookie
+JWT_COOKIE = <YOUR-JWT-COOKIE>
+```
+
 ### Start API
 
 To start the API, `npm run start` command must be run in the root directory. After running the command the following output should be obtained.
