@@ -49,3 +49,37 @@ To start the API, `npm run start` command must be run in the root directory. Aft
 App started on 5000 : development
 mongodb connection successful
 ```
+
+# Project Folder Structure
+
+The folder structure where the backend processes are located is created as above. The development of the above folder structure will be welcomed, however, developers are also expected to comply with this structure as much as possible in terms of project integrity.
+
+### Config
+
+The config folder contains constant values used throughout the project. database connection urls, port settings and password information.
+
+### Controllers
+
+Methods that respond to http requests are located in the controllers folder. The methods are divided into separate modules according to the main category they are related to, and collected in the server file and respond to external requests.
+
+### Helpers
+
+Methods that are used from more than one place and that perform auxiliary functions are collected under the helpers folder.
+
+### Middlewares
+
+In the middlewares folder, requests from outside are subjected to a number of checks before reaching the controller and it is decided to proceed.
+
+### Models
+
+Under the models folder, the structure of the data to be kept in mongodb is decided and communication with the database is facilitated by using the `mongoose` library.
+
+### Routes
+
+The routes folder contains files that manage routing operations.
+
+### Services
+
+In the services folder, there are publisher and subscriber codes of 2 different brokers, kafka and mqtt.
+
+# Data Transfer
