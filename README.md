@@ -7,3 +7,13 @@ Source codes of api developed using nodejs, expressjs and mongodb can be accesse
 The source code of the interface developed using reactjs and various javascript libraries can be accessed at [twinaide-ui](https://github.com/suatbayir1/twinaide-ui)
 
 API developed using python and flask technologies and communicating with third party services can be accessed at [twinaide-python](https://github.com/suatbayir1/twinaide-python)
+
+# Getting Started with Twinaide
+
+### Instal Dependencies
+
+To download the libraries used in the twinaide project, the `npm install` command should be run.
+
+### Start API
+
+To start the API, `npm run start` command must be run in the root directory. After running the command the following output should be obtained.
