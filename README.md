@@ -10,7 +10,7 @@ API developed using python and flask technologies and communicating with third p
 
 # Getting Started with Twinaide
 
-### Instal Dependencies
+### Install Dependencies
 
 To download the libraries used in the twinaide project, the `npm install` command should be run.
 
