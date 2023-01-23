@@ -1,6 +1,5 @@
 const kafka = require('kafka-node');
 
-
 const client = new kafka.KafkaClient({
     kafkaHost: `localhost:9096`,
     sasl: { mechanism: 'plain', username: "kafkauser", password: "kafkapassword" }
@@ -17,9 +16,9 @@ producer.on('ready', function () {
 
         payloads = [
             {
-                topic: 'test1234', messages: JSON.stringify({
+                topic: process.argv[2] || 'test1234', messages: JSON.stringify({
                     "timestamp": time,
-                    "value": parseInt(Math.random() * 50)
+                    "value": parseInt(Math.random() * process.argv[3])
                 })
             },
         ];
@@ -28,7 +27,7 @@ producer.on('ready', function () {
         producer.send(payloads, function (err, data) {
             console.log(data);
         });
-    }, 1000)
+    }, 5000)
 
 });
 
